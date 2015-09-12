@@ -7,16 +7,20 @@
 
 namespace noey
 {
-  // MIN_HEAP
+  // BINARY_HEAP
   template <typename _Tp, typename _Comp = std::greater<_Tp>>
-    class __min_heap
+    class __heap
     {
     public:
-      __min_heap(_Tp* __rhs, size_t __size)
+      __heap(_Tp* __rhs, size_t __size)
       : _M_data(__rhs, __rhs + __size)
       { __heapfy(); }
 
-      __min_heap(std::vector<_Tp>& __rhs)
+      __heap(std::vector<_Tp>& __rhs)
+      : _M_data(__rhs)
+      { __heapfy(); }
+
+      __heap(const std::vector<_Tp>& __rhs)
       : _M_data(__rhs)
       { __heapfy(); }
 
@@ -50,7 +54,7 @@ namespace noey
       }
 
       // move down up to the right pos
-      void __bubble_down(size_t __idx, _Comp __comp)
+      void __bubble_down(size_t __idx, _Comp __comp = _Comp())
       {
 	size_t __len = _M_data.size(),
 	       __left_child_idx = __idx * 2 + 1,
@@ -70,7 +74,7 @@ namespace noey
 	if (__min_idx != __idx)
 	  {
 	    std::swap(_M_data[__min_idx], _M_data[__idx]);
-	    __bubble_down(__min_idx, __idx);
+	    __bubble_down(__min_idx, __comp);
 	  }
       }
 
@@ -78,7 +82,7 @@ namespace noey
       void __heapfy()
       {
 	// O(n)
-	for(int __i = _M_data.size() - 1; __i >= 0; __i++)
+	for(int __i = _M_data.size() - 1; __i >= 0; __i--)
 	  __bubble_down(__i);
       }
 

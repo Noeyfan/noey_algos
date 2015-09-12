@@ -1,0 +1,8 @@
+#ifndef _NOEY_ALGOS
+#define _NOEY_ALGOS
+
+#include "noey_heap.h"
+template <typename _Tp>
+using heap = noey::__heap<_Tp>;
+
+#endif //_NOEY_ALGOS
