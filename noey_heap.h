@@ -3,12 +3,17 @@
 
 #include <functional>
 #include <vector>
+#include <iostream>
 #include <cassert>
 
 namespace noey
 {
+  using std::swap;
+  using std::greater;
+  using std::vector;
+
   // BINARY_HEAP
-  template <typename _Tp, typename _Comp = std::greater<_Tp>>
+  template <typename _Tp, typename _Comp>
     class __heap
     {
     public:
@@ -16,15 +21,15 @@ namespace noey
       : _M_data(__rhs, __rhs + __size)
       { __heapfy(); }
 
-      __heap(std::vector<_Tp>& __rhs)
+      __heap(vector<_Tp>& __rhs)
       : _M_data(__rhs)
       { __heapfy(); }
 
-      __heap(const std::vector<_Tp>& __rhs)
-      : _M_data(__rhs)
+      __heap(__heap& __rhs)
+      : _M_data(__rhs.data())
       { __heapfy(); }
 
-      _Tp front()
+      _Tp& top()
       {
 	assert(!_M_data.empty());
 	return _M_data[0];
@@ -33,10 +38,16 @@ namespace noey
       void pop()
       {
 	assert(!_M_data.empty());
-	std::swap(_M_data[0], _M_data[_M_data.size() - 1]);
+	swap(_M_data[0], _M_data[_M_data.size() - 1]);
 	_M_data.pop_back();
 	__bubble_down(0);
       }
+
+      bool empty()
+      { return _M_data.empty(); }
+
+      auto& data()
+      { return _M_data; }
 
     private:
       // move item up to the right pos
@@ -48,7 +59,7 @@ namespace noey
 
 	if (__comp(_M_data[__idx], _M_data[__parent_idx]))
 	{
-	    std::swap(_M_data[__idx], _M_data[__parent_idx]);
+	    swap(_M_data[__idx], _M_data[__parent_idx]);
 	    __bubble_up(__parent_idx);
 	}
       }
@@ -73,7 +84,7 @@ namespace noey
 
 	if (__min_idx != __idx)
 	  {
-	    std::swap(_M_data[__min_idx], _M_data[__idx]);
+	    swap(_M_data[__min_idx], _M_data[__idx]);
 	    __bubble_down(__min_idx, __comp);
 	  }
       }
@@ -86,7 +97,7 @@ namespace noey
 	  __bubble_down(__i);
       }
 
-      std::vector<_Tp> _M_data;
+      vector<_Tp> _M_data;
     };
 }
 #endif

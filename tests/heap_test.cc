@@ -1,9 +1,23 @@
 #include "../noey_algos"
 #include <iostream>
+#include <limits.h>
+
+
+struct my_less {
+  bool operator()(int* a, int* b) {
+    return *a < *b;
+  }
+};
 
 int main() {
-  heap<int> hp(std::vector<int>{ 1,2,3,4,5,6,7,8,9,10});
-  std::cout << hp.front() << "\n";
+  int a = INT_MAX;
+  int b = 11;
+  int c = 12;
+  int d = 13;
+  std::vector<int*> vec { &a, &b, &c, &d };
+  noey::heap<int*, my_less> hp(vec);
+  *(vec[0]) = 1;
+  std::cout << *hp.top() << "\n";
   hp.pop();
-  std::cout << hp.front() << "\n";
+  std::cout << *hp.top() << "\n";
 }
