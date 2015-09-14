@@ -2,7 +2,14 @@
 #define _NOEY_ALGOS
 
 #include "noey_heap.h"
-template <typename _Tp>
-using heap = noey::__heap<_Tp>;
+#include "noey_mst.h"
+
+namespace noey
+{
+  template <typename _Tp, typename _Comp = std::greater<int>>
+  using heap = __heap<_Tp, _Comp>;
+
+  using mst = __mst;
+}
 
 #endif //_NOEY_ALGOS
