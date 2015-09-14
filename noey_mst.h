@@ -3,12 +3,10 @@
 
 #include <unordered_map>
 #include <vector>
-#include <queue>
-#include <memory>
 #include <iostream>
 #include <utility>
-#include <functional>
 #include <limits.h>
+#include <functional>
 #include "noey_heap.h"
 
 namespace noey
@@ -17,8 +15,6 @@ namespace noey
   using std::vector;
   using std::unordered_map;
   using std::ostream;
-  using std::unique_ptr;
-  using std::priority_queue;
 
   class __node
   {
