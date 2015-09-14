@@ -11,8 +11,6 @@
 #include <limits.h>
 #include "noey_heap.h"
 
-#define MAXIMUM_NEIGHBOUR 100
-
 namespace noey
 {
   using std::pair;
@@ -58,7 +56,7 @@ namespace noey
     struct __less
     {
       bool operator() (const __node* __u, const __node* __v)
-    	{ return __u->weight() <= __v->weight(); }
+      { return __u->weight() <= __v->weight(); }
     };
 
   public:
