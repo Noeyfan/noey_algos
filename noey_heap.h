@@ -1,5 +1,5 @@
-#ifndef NOEY_HEAP_CC
-#define NOEY_HEAP_CC
+#ifndef NOEY_HEAP_H
+#define NOEY_HEAP_H
 
 #include <functional>
 #include <vector>
