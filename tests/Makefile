@@ -1,24 +1,20 @@
 CC = ~/sandbox/gcc/bin/g++
 CFLAGS = -Wall -std=c++1y
-SOURCES = *.cc
-COMMAND = ./a.out
+RUN = ./a.out
 
 test = $(CC) $(CFLAGS)
 
+.PHONY: all
+all: mst heap lru
+
 mst:
-	@echo Testing ...
-	@if $(CC) $(CFLAGS) mst_test.cc && $(COMMAND); then echo "All test passed."; fi
+	@if $(CC) $(CFLAGS) mst_test.cc && $(RUN); then echo "mst: All test passed."; fi
 
 heap:
-	@echo Testing ...
-	@if $(CC) $(CFLAGS) heap_test.cc && $(COMMAND); then echo "All test passed."; fi
+	@if $(CC) $(CFLAGS) heap_test.cc && $(RUN); then echo "heap: All test passed."; fi
 
 lru:
-	@echo Testing ...
-	@if $(CC) $(CFLAGS) lru_test.cc && $(COMMAND); then echo "All test passed."; fi
-
-all:
-	$(CC) $(CFLAGS) $(SOURCES)
+	@if $(CC) $(CFLAGS) lru_test.cc && $(RUN); then echo "LRU: All test passed."; fi
 
 clean:
 	rm *.out

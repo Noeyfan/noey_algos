@@ -1,5 +1,6 @@
 #include "../noey_algos"
 #include <iostream>
+#include <cassert>
 #include <limits.h>
 
 
@@ -17,7 +18,7 @@ int main() {
   std::vector<int*> vec { &a, &b, &c, &d };
   noey::heap<int*, my_less> hp(vec);
   *(vec[0]) = 1;
-  std::cout << *hp.top() << "\n";
+  assert(*hp.top() == 11);
   hp.pop();
-  std::cout << *hp.top() << "\n";
+  assert(*hp.top() == 1);
 }
