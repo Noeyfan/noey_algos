@@ -1,6 +1,10 @@
 #ifndef _NOEY_LRU_H
 #define _NOEY_LRU_H
 
+#include <memory>
+using std::shared_ptr;
+using std::make_shared;
+
 namespace noey{
   template <typename T, typename U = int>
     class __lru
@@ -8,16 +12,18 @@ namespace noey{
       struct __node
       {
         T _M_key; U _M_value;
-        __node* prev, *next;
+        shared_ptr<__node> prev, next;
 
 	__node() = default;
 
-        __node(const T& __k, const U& __v, __node* p, __node* n)
+        __node(const T& __k, const U& __v,
+	       const shared_ptr<__node>& p,
+	       const shared_ptr<__node>& n)
         : _M_key(__k), _M_value(__v), prev(p), next(n){ }
 
 	void remove() {
-	  __node* p = prev;
-	  __node* n = next;
+	  auto p = prev;
+	  auto n = next;
 	  p->next = n;
 	  n->prev = p;
 	}
@@ -25,11 +31,11 @@ namespace noey{
 
       struct __buf
       {
-	__node* _M_head;
+	shared_ptr<__node> _M_head;
 
 	// API
 	__buf() {
-	  _M_head = new __node();
+	  _M_head = make_shared<__node>();
 	  _M_head->prev = _M_head;
 	  _M_head->next = _M_head;
 	}
@@ -38,16 +44,16 @@ namespace noey{
 	  return _M_head->next == _M_head;
 	}
 
-	__node* back() {
+	auto& back() {
 	  return _M_head->prev;
 	}
 
-	__node* front() {
+	auto& front() {
 	  return _M_head->next;
 	}
 
 	void remove(const T& key) {
-	  __node* p = _M_head->next;
+	  auto p = _M_head->next;
 	  while (p != _M_head) {
 	    if (p->_M_key == key) {
 	      p->remove();
@@ -58,7 +64,7 @@ namespace noey{
 	}
 
 	U get(const T& key) {
-	  __node* p = _M_head->next;
+	  auto p = _M_head->next;
 	  while (p != _M_head) {
 	    if (p->_M_key == key) {
 	      return p->_M_value;
@@ -69,7 +75,7 @@ namespace noey{
 	}
 
 	void append(const T& key, const T& value) {
-	  __node* n = new __node(key, value, back(), _M_head);
+	  auto n = make_shared<__node>(key, value, back(), _M_head);
 	  back()->next = n;
 	  _M_head->prev = n;
 	}
