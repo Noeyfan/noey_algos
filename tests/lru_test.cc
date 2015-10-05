@@ -57,9 +57,17 @@ void test04() {
   assert(cache.get(2) == -1);
 }
 
+void test05() {
+  noey::lru_cache cache(10);
+  cache.set(0, 0);
+  cache.set(1, 1);
+  cache.set(2, 2);
+}
+
 int main() {
-  test01();
-  test02();
-  test03();
-  test04();
+  //test01();
+  //test02();
+  //test03();
+  //test04();
+  test05();
 }

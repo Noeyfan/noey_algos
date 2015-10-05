@@ -27,6 +27,8 @@ namespace noey{
 	  p->next = n;
 	  n->prev = p;
 	}
+
+	~__node() = default;
       };
 
       struct __buf
@@ -38,6 +40,14 @@ namespace noey{
 	  _M_head = make_shared<__node>();
 	  _M_head->prev = _M_head;
 	  _M_head->next = _M_head;
+	}
+
+	~__buf() {
+	  while (!empty()) {
+	    back()->remove();
+	  }
+	  _M_head->prev.reset();
+	  _M_head->next.reset();
 	}
 
 	bool empty() {
