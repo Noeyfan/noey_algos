@@ -3,6 +3,7 @@
 
 #include "noey_heap.h"
 #include "noey_mst.h"
+#include "noey_lru.h"
 
 namespace noey
 {
@@ -10,6 +11,8 @@ namespace noey
   using heap = __heap<_Tp, _Comp>;
 
   using mst = __mst;
+
+  using lru_cache = __lru<int>;
 }
 
 #endif //_NOEY_ALGOS
