@@ -3,6 +3,7 @@
 
 #include <memory>
 using std::shared_ptr;
+using std::weak_ptr;
 using std::make_shared;
 
 namespace noey{
@@ -12,7 +13,8 @@ namespace noey{
       struct __node
       {
         T _M_key; U _M_value;
-        shared_ptr<__node> prev, next;
+        weak_ptr<__node> prev;
+	shared_ptr<__node> next;
 
 	__node() = default;
 
@@ -21,8 +23,13 @@ namespace noey{
 	       const shared_ptr<__node>& n)
         : _M_key(__k), _M_value(__v), prev(p), next(n){ }
 
+        __node(const T& __k, const U& __v,
+	       const weak_ptr<__node>& p,
+	       const shared_ptr<__node>& n)
+        : _M_key(__k), _M_value(__v), prev(p), next(n){ }
+
 	void remove() {
-	  auto p = prev;
+	  auto p = prev.lock();
 	  auto n = next;
 	  p->next = n;
 	  n->prev = p;
@@ -43,10 +50,6 @@ namespace noey{
 	}
 
 	~__buf() {
-	  while (!empty()) {
-	    back()->remove();
-	  }
-	  _M_head->prev.reset();
 	  _M_head->next.reset();
 	}
 
@@ -86,7 +89,7 @@ namespace noey{
 
 	void append(const T& key, const T& value) {
 	  auto n = make_shared<__node>(key, value, back(), _M_head);
-	  back()->next = n;
+	  back().lock()->next = n;
 	  _M_head->prev = n;
 	}
       };
