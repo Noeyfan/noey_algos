@@ -11,23 +11,23 @@ struct Edge {
 
 vector<int> spfa(const vector<vector<Edge>>& g, int s) {
   int N = g.size();
-  vector<char> visited(N, false);
+  vector<char> inqueue(N, false);
   vector<int> dis(N, INF);
   dis[s] = 0;
-  visited[s] = true;
+  inqueue[s] = true;
   queue<int> q;
   q.push(s);
 
   while(!q.empty()) {
     int cur = q.front(); q.pop();
-    visited[cur] = false;
+    inqueue[cur] = false;
 
     for (Edge e : g[cur]) {
       int r = e.to;
       if (dis[r] > dis[cur] + e.weight) {
 	dis[r] = dis[cur] + e.weight;
-	if (!visited[r]) {
-	  visited[r] = true;
+	if (!inqueue[r]) {
+	  inqueue[r] = true;
 	  q.push(r);
 	}
       }
