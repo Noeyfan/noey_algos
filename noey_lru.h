@@ -7,23 +7,23 @@ using std::weak_ptr;
 using std::make_shared;
 
 namespace noey{
-  template <typename T, typename U = int>
+  template <typename _Tp, typename _U = int>
     class __lru
     {
       struct __node
       {
-        T _M_key; U _M_value;
+        _Tp _M_key; _U _M_value;
         weak_ptr<__node> prev;
 	shared_ptr<__node> next;
 
 	__node() = default;
 
-        __node(const T& __k, const U& __v,
+        __node(const _Tp& __k, const _U& __v,
 	       const shared_ptr<__node>& p,
 	       const shared_ptr<__node>& n)
         : _M_key(__k), _M_value(__v), prev(p), next(n){ }
 
-        __node(const T& __k, const U& __v,
+        __node(const _Tp& __k, const _U& __v,
 	       const weak_ptr<__node>& p,
 	       const shared_ptr<__node>& n)
         : _M_key(__k), _M_value(__v), prev(p), next(n){ }
@@ -65,7 +65,7 @@ namespace noey{
 	  return _M_head->next;
 	}
 
-	void remove(const T& key) {
+	void remove(const _Tp& key) {
 	  auto p = _M_head->next;
 	  while (p != _M_head) {
 	    if (p->_M_key == key) {
@@ -76,7 +76,7 @@ namespace noey{
 	  }
 	}
 
-	U get(const T& key) {
+	_U get(const _Tp& key) {
 	  auto p = _M_head->next;
 	  while (p != _M_head) {
 	    if (p->_M_key == key) {
@@ -87,7 +87,7 @@ namespace noey{
 	  return -1;
 	}
 
-	void append(const T& key, const T& value) {
+	void append(const _Tp& key, const _Tp& value) {
 	  auto n = make_shared<__node>(key, value, back(), _M_head);
 	  back().lock()->next = n;
 	  _M_head->prev = n;
@@ -101,8 +101,8 @@ namespace noey{
     public:
       __lru(int cap) : _M_capacity(cap), _M_used(cap) { }
 
-      U get(const T& key) {
-	U ret = _M_buf.get(key);
+      _U get(const _Tp& key) {
+	_U ret = _M_buf.get(key);
 	if (ret != -1) {
 	  // hit
 	  _M_buf.remove(key);
@@ -111,7 +111,7 @@ namespace noey{
 	return ret;
       }
 
-      void set(const T& key, const U& value) {
+      void set(const _Tp& key, const _U& value) {
 	assert(_M_capacity >= value);
 	int v = get(key);
 	if (v != -1) {

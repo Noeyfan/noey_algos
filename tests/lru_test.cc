@@ -2,7 +2,7 @@
 #include <iostream>
 
 void test01() {
-  noey::lru_cache cache(10);
+  noey::lru_cache<int> cache(10);
   cache.set(0, 2);
   cache.set(1, 3);
   cache.set(2, 1);
@@ -17,7 +17,7 @@ void test01() {
 }
 
 void test02() {
-  noey::lru_cache cache(10);
+  noey::lru_cache<int> cache(10);
   cache.set(0, 2);
   cache.set(1, 3);
   cache.set(2, 1);
@@ -34,7 +34,7 @@ void test02() {
 }
 
 void test03() {
-  noey::lru_cache cache(10);
+  noey::lru_cache<int> cache(10);
   cache.set(0, 0);
   cache.set(1, 1);
   cache.set(2, 2);
@@ -45,7 +45,7 @@ void test03() {
 }
 
 void test04() {
-  noey::lru_cache cache(10);
+  noey::lru_cache<int> cache(10);
   cache.set(0, 0);
   cache.set(1, 1);
   cache.set(2, 2);
@@ -58,7 +58,7 @@ void test04() {
 }
 
 void test05() {
-  noey::lru_cache cache(10);
+  noey::lru_cache<int> cache(10);
   cache.set(0, 0);
   cache.set(1, 1);
   cache.set(2, 2);
