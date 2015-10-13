@@ -5,7 +5,7 @@ RUN = ./a.out
 test = $(CC) $(CFLAGS)
 
 .PHONY: all
-all: mst heap lru
+all: mst heap lru skiplist
 
 mst:
 	@if $(CC) $(CFLAGS) mst_test.cc && $(RUN); then echo "mst: All test passed."; fi
@@ -15,6 +15,9 @@ heap:
 
 lru:
 	@if $(CC) $(CFLAGS) lru_test.cc && $(RUN); then echo "LRU: All test passed."; fi
+
+skiplist:
+	@if $(CC) $(CFLAGS) skip_list_test.cc && $(RUN); then echo "Skip List: All test passed."; fi
 
 clean:
 	rm *.out

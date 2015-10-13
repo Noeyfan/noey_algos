@@ -4,6 +4,7 @@
 #include "noey_heap.h"
 #include "noey_mst.h"
 #include "noey_lru.h"
+#include "noey_skip_list.h"
 
 namespace noey
 {
@@ -12,7 +13,11 @@ namespace noey
 
   using mst = __mst;
 
-  using lru_cache = __lru<int>;
+  template <typename _Tp>
+  using lru_cache = __lru<_Tp>;
+
+  template <typename _Tp>
+  using skip_list = __skip_list<_Tp>;
 }
 
 #endif //_NOEY_ALGOS
