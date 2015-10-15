@@ -4,6 +4,7 @@
 #include "noey_heap.h"
 #include "noey_mst.h"
 #include "noey_lru.h"
+#include "noey_avl.h"
 #include "noey_skip_list.h"
 
 namespace noey
@@ -18,6 +19,9 @@ namespace noey
 
   template <typename _Tp>
   using skip_list = __skip_list<_Tp>;
+
+  template <typename _Tp>
+  using avl_tree = __avl_tree<_Tp>;
 }
 
 #endif //_NOEY_ALGOS
