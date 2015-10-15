@@ -16,19 +16,19 @@ namespace noey
   using std::unordered_map;
   using std::ostream;
 
-  class __node
+  class __mst_node
   {
     int _M_key, _M_wt;
-    vector<__node*> _M_neighbours;
+    vector<__mst_node*> _M_neighbours;
     bool _M_visited;
 
   public:
-    __node(int __u = -1, int __w = INT_MAX)
+    __mst_node(int __u = -1, int __w = INT_MAX)
     : _M_key(__u), _M_wt(__w), _M_visited(false)
     //Forgot to initialize the bool value, took whole night to debug QAQ
     { }
 
-    ~__node() = default;
+    ~__mst_node() = default;
 
     int key() { return _M_key; }
     const int& key() const { return _M_key; }
@@ -39,7 +39,7 @@ namespace noey
     const int& weight() const { return _M_wt; }
     int& weight() { return _M_wt; }
 
-    void add_neighbour(__node* __u)
+    void add_neighbour(__mst_node* __u)
     { _M_neighbours.push_back(__u); }
 
     operator bool() const
@@ -51,7 +51,7 @@ namespace noey
   {
     struct __less
     {
-      bool operator() (const __node* __u, const __node* __v)
+      bool operator() (const __mst_node* __u, const __mst_node* __v)
       { return __u->weight() <= __v->weight(); }
     };
 
@@ -61,13 +61,13 @@ namespace noey
 
     ~__mst()
     {
-      for (__node* ele : _M_graph)
+      for (__mst_node* ele : _M_graph)
 	delete ele;
     }
 
     void add_vertex(int __u)
     {
-      _M_graph.push_back(new __node(__u));
+      _M_graph.push_back(new __mst_node(__u));
       _M_edges.emplace_back();
     }
 
@@ -94,15 +94,15 @@ namespace noey
     vector<pair<int, int>> prim_mst()
     {
       vector<pair<int, int>> __ret;
-      __node foo;
-      vector<__node*> parent(_M_graph.size(), &foo);
+      __mst_node foo;
+      vector<__mst_node*> parent(_M_graph.size(), &foo);
       if (_M_graph.empty()) return __ret;
       _M_graph[0]->weight() = 0;
-      __heap<__node*, __less> hp(_M_graph);
+      __heap<__mst_node*, __less> hp(_M_graph);
 
       while(!hp.empty())
         {
-          __node* min = hp.top();
+          __mst_node* min = hp.top();
           min->visited() = true;
           if (parent[min->key()]->key() != -1)
 	    __ret.emplace_back(parent[min->key()]->key(), min->key());
@@ -111,7 +111,7 @@ namespace noey
           for (const auto& ele : min->neighbours())
             {
 	      int weight_u_v = _M_edges[min->key()][ele->key()];
-      	      __node* node = _M_graph[ele->key()];
+      	      __mst_node* node = _M_graph[ele->key()];
       	      if (node->visited() == false && (node->weight() > weight_u_v))
 		{
 		  node->weight() = weight_u_v;
@@ -124,7 +124,7 @@ namespace noey
     }
 
   private:
-    vector<__node*> _M_graph;
+    vector<__mst_node*> _M_graph;
     vector<unordered_map<int, int>> _M_edges;
   };
 
