@@ -29,7 +29,7 @@ namespace noey
       {}
 
       inline int
-      operator -(__avl_node<_Tp>* const __r)
+      operator -(const __avl_node<_Tp>* __r)
       { return this->_M_h - __r->_M_h; }
 
     };
