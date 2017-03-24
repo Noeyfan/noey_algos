@@ -22,5 +22,8 @@ skiplist:
 avl:
 	@if $(CC) $(CFLAGS) avl_test.cc && $(RUN) > /dev/null ; then echo "AVL Tree: All test passed."; fi
 
+regex:
+	@if $(CC) $(CFLAGS) regex_test.cc && $(RUN) > /dev/null ; then echo "REGEX: All test passed."; fi
+
 clean:
 	@rm -rf *.out *.dSYM

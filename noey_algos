@@ -6,6 +6,7 @@
 #include "noey_lru.h"
 #include "noey_avl.h"
 #include "noey_skip_list.h"
+#include "noey_regex.h"
 
 namespace noey
 {
