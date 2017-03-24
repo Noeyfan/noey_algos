@@ -73,7 +73,7 @@ namespace noey
 		e1 = pop();
 		s = New<_state>(m_pool, 256, e1.start, nullptr);
 		concat(e1.out, s);
-		push(_frag(s, vector<_state**>{&(s->out1)}));
+		push(_frag(s, vector<_state**>{&(s->out2)}));
 		break;
 	      case '|':
 		e2 = pop();
