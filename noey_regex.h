@@ -62,41 +62,41 @@ namespace noey
 	_frag stack[1000], *stackp, e1, e2, e;
 	_state* s;
 
-#define push(s) *stackp++ = s
-#define pop() *--stackp;
+#define push_in(s) *stackp++ = s
+#define pop_out() *--stackp;
 
 	stackp = stack;
 
 	for (p = postfix; *p; p++) {
 	    switch(*p) {
 	      case '*':
-		e1 = pop();
+		e1 = pop_out();
 		s = New<_state>(m_pool, 256, e1.start, nullptr);
 		concat(e1.out, s);
-		push(_frag(s, vector<_state**>{&(s->out2)}));
+		push_in(_frag(s, vector<_state**>{&(s->out2)}));
 		break;
 	      case '|':
-		e2 = pop();
-		e1 = pop();
+		e2 = pop_out();
+		e1 = pop_out();
 		s = New<_state>(m_pool, 256, e1.start, e2.start);
 		e1.out.insert(e1.out.end(), e2.out.begin(), e2.out.end());
-		push(_frag(s, e1.out));
+		push_in(_frag(s, e1.out));
 		break;
 	      case '.':
-		e2 = pop();
-		e1 = pop();
+		e2 = pop_out();
+		e1 = pop_out();
 		concat(e1.out, e2.start);
 		// if (!e1.out[0]) std::cerr << "boom";
-		push(_frag(e1.start, e2.out));
+		push_in(_frag(e1.start, e2.out));
 		break;
 	      default:
 		s = New<_state>(m_pool, *p, nullptr, nullptr);
-		push(_frag(s, vector<_state**>{&(s->out1)}));
+		push_in(_frag(s, vector<_state**>{&(s->out1)}));
 		break;
 	    }
 	}
 
-	e1 = pop();
+	e1 = pop_out();
 	_state* matching = New<_state>(m_pool, 257, nullptr, nullptr);
 	concat(e1.out, matching);
 	return e1.start;
