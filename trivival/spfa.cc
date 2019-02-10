@@ -4,31 +4,33 @@
 #include <queue>
 using namespace std;
 
-struct Edge {
-  int to;
-  int weight;
-};
-
-vector<int> spfa(const vector<vector<Edge>>& g, int s) {
+// pair of to_node and weight
+vector<int> spfa(const vector<vector<pair<int, int>:>& g, int s) {
   int N = g.size();
-  vector<char> inqueue(N, false);
+
+  // init distance
   vector<int> dis(N, INF);
   dis[s] = 0;
-  inqueue[s] = true;
+
+  // init queue
   queue<int> q;
   q.push(s);
 
-  while(!q.empty()) {
-    int cur = q.front(); q.pop();
-    inqueue[cur] = false;
+  // track inqueue status
+  vector<char> inqueue(N, false);
+  inqueue[s] = true;
 
-    for (Edge e : g[cur]) {
-      int r = e.to;
-      if (dis[r] > dis[cur] + e.weight) {
-	dis[r] = dis[cur] + e.weight;
-	if (!inqueue[r]) {
-	  inqueue[r] = true;
-	  q.push(r);
+  while(!q.empty()) {
+    int from = q.front();
+    q.pop();
+    inqueue[from] = false;
+
+    for (const auto& [to, weight] : g[from]) {
+      if (dis[to] > dis[from] + weight) {
+	dis[to] = dis[from] + weight;
+	if (!inqueue[to]) {
+	  inqueue[to] = true;
+	  q.push(to);
 	}
       }
     }
