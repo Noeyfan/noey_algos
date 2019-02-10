@@ -4,6 +4,10 @@
 #include <queue>
 using namespace std;
 
+// best case O(|E|)
+// worst case O(|E^2|)
+// unstable
+
 // pair of to_node and weight
 vector<int> spfa(const vector<vector<pair<int, int>:>& g, int s) {
   int N = g.size();
@@ -11,6 +15,9 @@ vector<int> spfa(const vector<vector<pair<int, int>:>& g, int s) {
   // init distance
   vector<int> dis(N, INF);
   dis[s] = 0;
+
+  // optional: init path tracking
+  // vector<int> edge(N);
 
   // init queue
   queue<int> q;
@@ -26,8 +33,11 @@ vector<int> spfa(const vector<vector<pair<int, int>:>& g, int s) {
     inqueue[from] = false;
 
     for (const auto& [to, weight] : g[from]) {
+      // relax edge
       if (dis[to] > dis[from] + weight) {
 	dis[to] = dis[from] + weight;
+        // optional: path tracking
+        // edge[to] = from;
 	if (!inqueue[to]) {
 	  inqueue[to] = true;
 	  q.push(to);
